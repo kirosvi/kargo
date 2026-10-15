@@ -301,6 +301,14 @@ type TargetUpdateStrategy struct {
 	// MaxConcurrent specifies a number of targets which can be promoted to at the same time
 	// Zero means there is no limit (default)
 	MaxConcurrent int64 `json:"maxConcurrent,omitempty"`
+	// MaxFailures specifies a percentage value (5 for 5%) of target promotions which can fail
+	// before PromotionRequest is considered failed.
+	// +kubebuilder:validation:Minimum=0
+	// +kubebuilder:validation:Maximum=100
+	MaxFailures int64 `json:"maxFailures,omitempty"`
+	// FailFast when true instructs PromotionRequest to stop creating promotions after exceeding
+	// MaxFailures failed promotions.
+	FailFast bool `json:"failFast,omitempty"`
 }
 
 // FreightRequest expresses a Stage's need for Freight having originated from a
