@@ -9047,8 +9047,16 @@
     "TargetUpdateStrategy": {
       "type": "object",
       "properties": {
+        "failFast": {
+          "description": "FailFast when true instructs PromotionRequest to stop creating promotions after exceeding\nMaxFailures failed promotions.",
+          "type": "boolean"
+        },
         "maxConcurrent": {
           "description": "MaxConcurrent specifies a number of targets which can be promoted to at the same time\nZero means there is no limit (default)",
+          "type": "integer"
+        },
+        "maxFailures": {
+          "description": "MaxFailures specifies a percentage value (5 for 5%) of target promotions which can fail\nbefore PromotionRequest is considered failed.\n+kubebuilder:validation:Minimum=0\n+kubebuilder:validation:Maximum=100",
           "type": "integer"
         }
       }

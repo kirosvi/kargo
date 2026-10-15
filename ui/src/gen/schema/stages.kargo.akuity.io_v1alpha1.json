@@ -316,11 +316,22 @@
             "updateStrategy": {
               "description": "UpdateStrategy configures the pace of updating the targets",
               "properties": {
+                "failFast": {
+                  "description": "FailFast when true instructs PromotionRequest to stop creating promotions after exceeding\nMaxFailures failed promotions.",
+                  "type": "boolean"
+                },
                 "maxConcurrent": {
                   "description": "MaxConcurrent specifies a number of targets which can be promoted to at the same time\nZero means there is no limit (default)",
                   "format": "int64",
                   "maximum": 9223372036854776000,
                   "minimum": -9223372036854776000,
+                  "type": "integer"
+                },
+                "maxFailures": {
+                  "description": "MaxFailures specifies a percentage value (5 for 5%) of target promotions which can fail\nbefore PromotionRequest is considered failed.",
+                  "format": "int64",
+                  "maximum": 100,
+                  "minimum": 0,
                   "type": "integer"
                 }
               },

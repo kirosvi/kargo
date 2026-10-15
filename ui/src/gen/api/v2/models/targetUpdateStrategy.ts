@@ -8,8 +8,20 @@
 
 export interface TargetUpdateStrategy {
   /**
+   * FailFast when true instructs PromotionRequest to stop creating promotions after exceeding
+   * MaxFailures failed promotions.
+   */
+  failFast?: boolean;
+  /**
    * MaxConcurrent specifies a number of targets which can be promoted to at the same time
    * Zero means there is no limit (default)
    */
   maxConcurrent?: number;
+  /**
+   * MaxFailures specifies a percentage value (5 for 5%) of target promotions which can fail
+   * before PromotionRequest is considered failed.
+   * +kubebuilder:validation:Minimum=0
+   * +kubebuilder:validation:Maximum=100
+   */
+  maxFailures?: number;
 }

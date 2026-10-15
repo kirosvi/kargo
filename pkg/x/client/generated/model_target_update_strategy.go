@@ -19,8 +19,12 @@ var _ MappedNullable = &TargetUpdateStrategy{}
 
 // TargetUpdateStrategy struct for TargetUpdateStrategy
 type TargetUpdateStrategy struct {
+	// FailFast when true instructs PromotionRequest to stop creating promotions after exceeding MaxFailures failed promotions.
+	FailFast *bool `json:"failFast,omitempty"`
 	// MaxConcurrent specifies a number of targets which can be promoted to at the same time Zero means there is no limit (default)
 	MaxConcurrent *int32 `json:"maxConcurrent,omitempty"`
+	// MaxFailures specifies a percentage value (5 for 5%) of target promotions which can fail before PromotionRequest is considered failed. +kubebuilder:validation:Minimum=0 +kubebuilder:validation:Maximum=100
+	MaxFailures *int32 `json:"maxFailures,omitempty"`
 }
 
 // NewTargetUpdateStrategy instantiates a new TargetUpdateStrategy object
@@ -38,6 +42,38 @@ func NewTargetUpdateStrategy() *TargetUpdateStrategy {
 func NewTargetUpdateStrategyWithDefaults() *TargetUpdateStrategy {
 	this := TargetUpdateStrategy{}
 	return &this
+}
+
+// GetFailFast returns the FailFast field value if set, zero value otherwise.
+func (o *TargetUpdateStrategy) GetFailFast() bool {
+	if o == nil || IsNil(o.FailFast) {
+		var ret bool
+		return ret
+	}
+	return *o.FailFast
+}
+
+// GetFailFastOk returns a tuple with the FailFast field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *TargetUpdateStrategy) GetFailFastOk() (*bool, bool) {
+	if o == nil || IsNil(o.FailFast) {
+		return nil, false
+	}
+	return o.FailFast, true
+}
+
+// HasFailFast returns a boolean if a field has been set.
+func (o *TargetUpdateStrategy) HasFailFast() bool {
+	if o != nil && !IsNil(o.FailFast) {
+		return true
+	}
+
+	return false
+}
+
+// SetFailFast gets a reference to the given bool and assigns it to the FailFast field.
+func (o *TargetUpdateStrategy) SetFailFast(v bool) {
+	o.FailFast = &v
 }
 
 // GetMaxConcurrent returns the MaxConcurrent field value if set, zero value otherwise.
@@ -72,6 +108,38 @@ func (o *TargetUpdateStrategy) SetMaxConcurrent(v int32) {
 	o.MaxConcurrent = &v
 }
 
+// GetMaxFailures returns the MaxFailures field value if set, zero value otherwise.
+func (o *TargetUpdateStrategy) GetMaxFailures() int32 {
+	if o == nil || IsNil(o.MaxFailures) {
+		var ret int32
+		return ret
+	}
+	return *o.MaxFailures
+}
+
+// GetMaxFailuresOk returns a tuple with the MaxFailures field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *TargetUpdateStrategy) GetMaxFailuresOk() (*int32, bool) {
+	if o == nil || IsNil(o.MaxFailures) {
+		return nil, false
+	}
+	return o.MaxFailures, true
+}
+
+// HasMaxFailures returns a boolean if a field has been set.
+func (o *TargetUpdateStrategy) HasMaxFailures() bool {
+	if o != nil && !IsNil(o.MaxFailures) {
+		return true
+	}
+
+	return false
+}
+
+// SetMaxFailures gets a reference to the given int32 and assigns it to the MaxFailures field.
+func (o *TargetUpdateStrategy) SetMaxFailures(v int32) {
+	o.MaxFailures = &v
+}
+
 func (o TargetUpdateStrategy) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -82,8 +150,14 @@ func (o TargetUpdateStrategy) MarshalJSON() ([]byte, error) {
 
 func (o TargetUpdateStrategy) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if !IsNil(o.FailFast) {
+		toSerialize["failFast"] = o.FailFast
+	}
 	if !IsNil(o.MaxConcurrent) {
 		toSerialize["maxConcurrent"] = o.MaxConcurrent
+	}
+	if !IsNil(o.MaxFailures) {
+		toSerialize["maxFailures"] = o.MaxFailures
 	}
 	return toSerialize, nil
 }

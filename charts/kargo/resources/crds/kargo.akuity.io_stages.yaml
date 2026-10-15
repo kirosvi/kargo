@@ -459,11 +459,24 @@ spec:
                     description: UpdateStrategy configures the pace of updating the
                       targets
                     properties:
+                      failFast:
+                        description: |-
+                          FailFast when true instructs PromotionRequest to stop creating promotions after exceeding
+                          MaxFailures failed promotions.
+                        type: boolean
                       maxConcurrent:
                         description: |-
                           MaxConcurrent specifies a number of targets which can be promoted to at the same time
                           Zero means there is no limit (default)
                         format: int64
+                        type: integer
+                      maxFailures:
+                        description: |-
+                          MaxFailures specifies a percentage value (5 for 5%) of target promotions which can fail
+                          before PromotionRequest is considered failed.
+                        format: int64
+                        maximum: 100
+                        minimum: 0
                         type: integer
                     type: object
                 required:
